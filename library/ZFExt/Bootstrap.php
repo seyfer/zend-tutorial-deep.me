@@ -1,6 +1,7 @@
 <?php
 
-require_once 'Zend/Loader.php';
+//include_once '../../vendor/Zend/Loader.php';
+//include_once '../../vendor/Zend/Controller/Front.php';
 
 /**
  * Description of Bootstrap
@@ -10,12 +11,16 @@ require_once 'Zend/Loader.php';
 class ZFExt_Bootstrap {
 
     public static $root            = '';
+    public static $zendPrefix      = "vendor/";
     public static $frontController = null;
 
     public static function run()
     {
+
         self::setupEnvironment();
+
         self::prepare();
+
         $response = self::$frontController->dispatch();
         self::sendResponse($response);
     }
@@ -25,15 +30,38 @@ class ZFExt_Bootstrap {
         error_reporting(E_ALL | E_STRICT);
         ini_set('display_startup_errors', true);
         ini_set('display_errors', true);
-        date_default_timezone_set('Europe/London');
+        date_default_timezone_set('Europe/Moscow');
         self::$root = realpath('..');
+
         define('APP_ROOT', self::$root);
+        set_include_path(get_include_path() . ":/home/seyfer/www/zend-tutorial-deep.me/library/:");
+
         spl_autoload_register(array(__CLASS__, 'autoload'));
     }
 
     public static function autoload($class)
     {
-        include str_replace('_', '/', $class) . '.php';
+        $filename = str_replace('_', '/', $class) . '.php';
+        if (file_exists($filename)) {
+            require $filename;
+        }
+
+//        try {
+//            $filename = "../" . self::$zendPrefix . str_replace('_', '/', $class) . '.php';
+//            if (file_exists($filename)) {
+//                require $filename;
+//            }
+//            else {
+//                throw new Exception("fail");
+//            }
+//        }
+//        catch (Exception $e) {
+//            $filename = str_replace('_', '/', $class) . '.php';
+//            if (file_exists($filename)) {
+//                require $filename;
+//            }
+//        }
+
         return $class;
     }
 
