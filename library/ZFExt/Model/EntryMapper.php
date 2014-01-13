@@ -5,9 +5,8 @@
  *
  * @author seyfer
  */
-class ZFExt_Model_EntryMapper {
+class ZFExt_Model_EntryMapper extends ZFExt_Model_Mapper {
 
-    protected $_tableGateway      = null;
     protected $_tableName         = 'entries';
     protected $_entityClass       = 'ZFExt_Model_Entry';
     protected $_authorMapperClass = 'ZFExt_Model_AuthorMapper';
@@ -16,25 +15,6 @@ class ZFExt_Model_EntryMapper {
     public function setAuthorMapper(ZFExt_Model_AuthorMapper $mapper)
     {
         $this->_authorMapper = $mapper;
-    }
-
-    public function __construct(Zend_Db_Table_Abstract $tableGateway)
-    {
-        if (is_null($tableGateway)) {
-            $this->_tableGateway = new Zend_Db_Table($this->_tableName);
-        }
-        else {
-            $this->_tableGateway = $tableGateway;
-        }
-    }
-
-    /**
-     *
-     * @return ZFExt_Model_AuthorMapper
-     */
-    public function _getGateway()
-    {
-        return $this->_tableGateway;
     }
 
     public function save(ZFExt_Model_Entry $entry)
@@ -47,6 +27,7 @@ class ZFExt_Model_EntryMapper {
 
         if (!$entry->id) {
             $entry->id = $this->_getGateway()->insert($data);
+            $this->_setIdentity($entry->id, $entry);
         }
         else {
 
@@ -60,6 +41,10 @@ class ZFExt_Model_EntryMapper {
 
     public function find($id)
     {
+        if ($this->_getIdentity($id)) {
+            return $this->_getIdentity($id);
+        }
+
         $result = $this->_getGateway()->find($id)->current();
 //        if (!$this->_authorMapper) {
 //            $this->_authorMapper = new $this->_authorMapperClass;
@@ -74,6 +59,7 @@ class ZFExt_Model_EntryMapper {
         ));
 
         $entry->setReferenceId('author', $result->author_id);
+        $this->_setIdentity($entry->id, $entry);
 
         return $entry;
     }
