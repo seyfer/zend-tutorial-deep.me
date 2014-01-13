@@ -1,0 +1,10 @@
+{
+    "name": "seyfer",
+    "minimum-stability": "dev",
+    "config": {
+        "vendor-dir": "./library/"
+    },
+    "require": {
+        "zendframework/zendframework1": "*"
+    }
+}

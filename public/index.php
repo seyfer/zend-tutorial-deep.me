@@ -29,14 +29,15 @@ set_include_path(APPLICATION_ROOT . '/library' . PATH_SEPARATOR .
 require_once 'Zend/Loader/Autoloader.php';
 $autoloader = Zend_Loader_Autoloader::getInstance();
 //$autoloader->setDefaultAutoloader(create_function('$class', "include str_replace('_', '/', \$class) . '.php';"));
-$loader     = function ($class) {
+
+$loader = function ($class) {
     include str_replace('_', '/', $class) . '.php';
 };
+
 $autoloader->setDefaultAutoloader($loader);
-
-
 //require_once 'Zend/Application.php';
 
-$application = new Zend_Application(APPLICATION_ENV, APPLICATION_ROOT . '/config/application.ini');
+$application = new Zend_Application(APPLICATION_ENV, APPLICATION_ROOT .
+        '/config/application.ini');
 
 $application->bootstrap()->run();
