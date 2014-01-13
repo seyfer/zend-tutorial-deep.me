@@ -48,4 +48,81 @@ class ZFExt_Model_EntryMapperTest extends PHPUnit_Framework_TestCase {
         return $mocked;
     }
 
+    public function testSavesNewEntryAndSetsEntryIdOnSave()
+    {
+        $author = new ZFExt_Model_Author(array(
+            'id'       => 2,
+            'username' => 'joe_bloggs',
+            'fullname' => 'Joe Bloggs',
+            'email'    => 'joe@example.com',
+            'url'      => 'http://www.example.com'
+                )
+        );
+
+        $entry         = new ZFExt_Model_Entry(array(
+            'title'          => 'My Title',
+            'content'        => 'My Content',
+            'published_date' => '2009-08-17T17:30:00Z',
+            'author'         => $author
+                )
+        );
+// set mock expectation on calling Zend_Db_Table::insert()
+        $insertionData = array(
+            'id'             => NULL,
+            'title'          => 'My Title',
+            'content'        => 'My Content',
+            'published_date' => '2009-08-17T17:30:00Z',
+            'author_id'      => 2
+        );
+
+        $this->_tableGateway
+                ->expects($this->once())
+                ->method('insert')
+                ->with($this->equalTo($insertionData))
+                ->will($this->returnValue(123));
+
+        $this->_mapper->save($entry);
+        $this->assertEquals(123, $entry->id);
+    }
+
+    public function testUpdatesExistingEntry()
+    {
+        $author = new ZFExt_Model_Author(array(
+            'id'       => 2,
+            'username' => 'Joe Bloggs',
+            'email'    => 'joe@example.com',
+            'url'      => 'http://www.example.com'
+        ));
+
+        $entry = new ZFExt_Model_Entry(array(
+            'id'             => 1,
+            'title'          => 'My Title',
+            'content'        => 'My Content',
+            'published_date' => '2009-08-17T17:30:00Z',
+            'author'         => $author
+        ));
+
+        //// set mock expectation on calling Zend_Db_Table::update()
+        $updateData = array(
+            'id'             => 1,
+            'title'          => 'My Title',
+            'content'        => 'My Content',
+            'published_date' => '2009-08-17T17:30:00Z',
+            'author_id'      => 2
+        );
+
+// quoteInto() is called to escape parameters from the adapter
+        $this->_adapter
+                ->expects($this->once())
+                ->method('quoteInto')
+                ->will($this->returnValue('id = 1'));
+
+        $this->_tableGateway
+                ->expects($this->once())
+                ->method('update')
+                ->with($this->equalTo($updateData), $this->equalTo('id = 1'));
+
+        $this->_mapper->save($entry);
+    }
+
 }

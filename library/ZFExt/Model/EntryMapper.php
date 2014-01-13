@@ -25,4 +25,25 @@ class ZFExt_Model_EntryMapper {
         return $this->_tableGateway;
     }
 
+    public function save(ZFExt_Model_Entry $entry)
+    {
+        $data              = $entry->toArray();
+        $data['author_id'] = $entry->author->id;
+        unset($data['author']);
+
+//        Zend_Debug::dump($data);
+
+        if (!$entry->id) {
+            $entry->id = $this->_getGateway()->insert($data);
+        }
+        else {
+
+            $where = $this->_getGateway()
+                    ->getAdapter()
+                    ->quoteInto('id = ?', $entry->id);
+
+            $this->_getGateway()->update($data, $where);
+        }
+    }
+
 }
