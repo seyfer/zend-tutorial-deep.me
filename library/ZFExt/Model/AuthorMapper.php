@@ -44,7 +44,7 @@ class ZFExt_Model_AuthorMapper extends ZFExt_Model_Mapper {
             'url'      => $result->url
         ));
 
-        $this->_setIdentity($author->id, $author);
+        $this->_setIdentity($id, $author);
 
         return $author;
     }

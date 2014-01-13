@@ -230,7 +230,6 @@ class ZFExt_Model_AuthorMapperTest extends PHPUnit_Framework_TestCase {
             'fullname' => 'Joe Bloggs',
             'email'    => 'joe@example.com',
             'url'      => 'http://www.example.com',
-            "id"       => NULL,
                 )
         );
 
@@ -239,7 +238,8 @@ class ZFExt_Model_AuthorMapperTest extends PHPUnit_Framework_TestCase {
             'username' => 'joe_bloggs',
             'fullname' => 'Joe Bloggs',
             'email'    => 'joe@example.com',
-            'url'      => 'http://www.example.com'
+            'url'      => 'http://www.example.com',
+            "id"       => NULL,
         );
 
         $this->_tableGateway
@@ -252,6 +252,9 @@ class ZFExt_Model_AuthorMapperTest extends PHPUnit_Framework_TestCase {
         $mapper = new ZFExt_Model_AuthorMapper($this->_tableGateway);
         $mapper->save($author);
         $result = $mapper->find(123);
+
+//        print_r($result);
+//        Zend_Debug::dump($result);
 
         $this->assertSame($result, $author);
     }

@@ -325,7 +325,8 @@ class ZFExt_Model_EntryMapperTest extends PHPUnit_Framework_TestCase {
             'title'          => 'My Title',
             'content'        => 'My Content',
             'published_date' => '2009-08-17T17:30:00Z',
-            'author_id'      => 2
+            'author_id'      => 2,
+            "id"             => NULL,
         );
 
         $this->_tableGateway

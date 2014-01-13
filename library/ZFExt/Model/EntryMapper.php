@@ -46,20 +46,16 @@ class ZFExt_Model_EntryMapper extends ZFExt_Model_Mapper {
         }
 
         $result = $this->_getGateway()->find($id)->current();
-//        if (!$this->_authorMapper) {
-//            $this->_authorMapper = new $this->_authorMapperClass;
-//        }
-//        $author = $this->_authorMapper->find($result->author_id);
-        $entry  = new $this->_entityClass(array(
+
+        $entry = new $this->_entityClass(array(
             'id'             => $result->id,
             'title'          => $result->title,
             'content'        => $result->content,
             'published_date' => $result->published_date,
-//            "author"         => $author
         ));
 
         $entry->setReferenceId('author', $result->author_id);
-        $this->_setIdentity($entry->id, $entry);
+        $this->_setIdentity($id, $entry);
 
         return $entry;
     }
