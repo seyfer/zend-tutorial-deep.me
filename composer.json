@@ -2,9 +2,10 @@
     "name": "seyfer",
     "minimum-stability": "dev",
     "config": {
-        "vendor-dir": "./library/"
+        "vendor-dir": "./vendor/"
     },
     "require": {
-        "zendframework/zendframework1": "*"
+        "zendframework/zendframework1": "*",
+        "phpunit/phpunit": "3.7.28"
     }
 }

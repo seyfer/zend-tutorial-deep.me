@@ -25,22 +25,8 @@ class ZFExt_Model_AllTests {
         $suite = new PHPUnit_Framework_TestSuite('ZFSTDE Blog Suite: Models');
         $suite->addTestSuite('ZFExt_Model_EntryTest');
         $suite->addTestSuite('ZFExt_Model_AuthorTest');
+        $suite->addTestSuite('ZFExt_Model_EntryMapperTest');
         return $suite;
-    }
-
-    public function testReturnsIssetStatusOfProperties()
-    {
-        $entry        = new ZFExt_Model_Entry;
-        $entry->title = 'My Title';
-        $this->assertTrue(isset($entry->title));
-    }
-
-    public function testCanUnsetAnyProperties()
-    {
-        $entry        = new ZFExt_Model_Entry;
-        $entry->title = 'My Title';
-        unset($entry->title);
-        $this->assertFalse(isset($entry->title));
     }
 
 }
