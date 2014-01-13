@@ -20,7 +20,7 @@ class ZFExt_Model_EntryMapper {
         }
     }
 
-    protected function _getGateway()
+    public function _getGateway()
     {
         return $this->_tableGateway;
     }

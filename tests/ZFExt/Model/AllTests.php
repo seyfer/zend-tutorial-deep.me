@@ -23,9 +23,12 @@ class ZFExt_Model_AllTests {
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('ZFSTDE Blog Suite: Models');
+
         $suite->addTestSuite('ZFExt_Model_EntryTest');
         $suite->addTestSuite('ZFExt_Model_AuthorTest');
         $suite->addTestSuite('ZFExt_Model_EntryMapperTest');
+        $suite->addTestSuite('ZFExt_Model_AuthorMapperTest');
+
         return $suite;
     }
 
