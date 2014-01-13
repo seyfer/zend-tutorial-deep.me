@@ -10,7 +10,8 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 
 //require_once 'TestHelper.php';
-require_once 'ZFExt/Model/EntryTest.php';
+require_once 'EntryTest.php';
+require_once 'AuthorTest.php';
 
 class ZFExt_Model_AllTests {
 
@@ -23,6 +24,7 @@ class ZFExt_Model_AllTests {
     {
         $suite = new PHPUnit_Framework_TestSuite('ZFSTDE Blog Suite: Models');
         $suite->addTestSuite('ZFExt_Model_EntryTest');
+        $suite->addTestSuite('ZFExt_Model_AuthorTest');
         return $suite;
     }
 
