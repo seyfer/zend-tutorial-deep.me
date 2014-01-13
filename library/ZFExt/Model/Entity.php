@@ -2,6 +2,8 @@
 
 class ZFExt_Model_Entity {
 
+    protected $_references = array();
+
     public function __construct(array $data = null)
     {
         if (!is_null($data)) {
@@ -42,6 +44,18 @@ class ZFExt_Model_Entity {
     {
         if (isset($this->_data[$name])) {
             unset($this->_data[$name]);
+        }
+    }
+
+    public function setReferenceId($name, $id)
+    {
+        $this->_references[$name] = $id;
+    }
+
+    public function getReferenceId($name)
+    {
+        if (isset($this->_references[$name])) {
+            return $this->_references[$name];
         }
     }
 
